@@ -1,52 +1,54 @@
-require('dotenv').config(); //Acceder al puerto
-const express = require('express'); //Framework
+require("dotenv").config(); //Variables de entorno
+const express = require("express"); //Framework para crear el servidor
 
-//Mecanismo de seguridad, permite el backend especisificar origenes permtidos
-const cors = require('cors');
+//Middleware para permitir solicitudes desde otros dominios
+const cors = require("cors");
 
-//Gestión de rutas seguras y compatibles. Windows y Linux, MacOS /
-const path = require('path'); //Manejo de rutas
+//Middleware para registrar las solicitudes HTTP
+const path = require("path");
 
-//Puerto donde se ejectuta nuestro servidor
-const app = express(); //Referencia
+//Puerto del servidor
+const app = express(); //Crear el servidor - referencia
 const PORT = process.env.PORT || 3000;
 
-
 //1. MIDDLEWARES (funcion intermedia)
-app.use(cors()); //backend - frontend
-app.use(express.json()); //api
-app.use(express.urlencoded({ extended: true })); //formulario
+app.use(cors()); //Permitir solicitudes desde otros dominios
+app.use(express.json()); //Permitir recibir datos en formato JSON
+app.use(express.urlencoded({ extended: true })); //Permitir recibir datos en formato URL-encoded
 
-//Archivos estaticos servir (frontend)
-app.use(express.static(path.join(__dirname, 'public'))); 
+//Archivos estáticos servir (frontend)
+app.use(express.static(path.join(__dirname, "public"))); //Carpeta "public" para archivos estáticos
 
-//Rutas (API) Test: Postaman
-app.use('/api/productos', require('./routes/productos'));
-app.use ('/api/marcas', require('./routes/marcas'));
+//2. RUTAS (API) Test: Postman
+app.use("/api/productos", require("./routes/productos")); //Rutas de la API
+app.use("/api/marca", require("./routes/marca")); //Rutas de la API
 
-//3. Todoo lo que no tiene ruta o el servidor no lo direccionar 
-//SPA = Single page application -> hhtp://localhost:3000/
-//Express V4: app.get('*', () => {})
-//Express V5: app.get('/{*path}', () => {})
+//3. todo lo que no tien ruta o el servidor no lo direccionar
+//SPA = Single Page Application -> http://localhost:3000/
+//Express V4: app.get('*', () =>{})
+//Express V5: app.get('/{*path}', () =>{})
+//req (require - solicitud)
+//res (response - respuesta)
+app.get("/{*path}", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html")); //Enviar el archivo index.html para cualquier ruta no definida
+});
 
-app.get('/{*path}', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-})
-
-//Manejador de errores 
+//Manejar errores
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Error interno del servidor' });
+  console.error(err); //Registrar el error en la consola
+  res
+    .status(500)
+    .json({ success: false, message: "Error interno del servidor" }); //Enviar una respuesta de error al cliente
 });
 
 //Iniciar el servidor
 app.listen(PORT, () => {
-    //URL: Aplicacion WEB
-    console.log(`Servidor Web ejecutandose en http://localhost:${PORT}`);
-    //API productos
-    console.log(`API Productos  en http://localhost:${PORT}/api/productos`);
-    //API marcas
-    console.log(`API Marcas  en http://localhost:${PORT}/api/marcas`);
+  //URL : APLICACION WEB
+  console.log(`Servidor Web ejecutandose en http://localhost:${PORT}`);
+  //API productos
+  console.log(`API productos es http://localhost:${PORT}/api/productos`);
+  //API marcas
+  console.log(`API marcas es http://localhost:${PORT}/api/marcas`);
 });
 
-module.exports = app; //Exportar para pruebas unitarias
+module.exports = app; //Exportar el servidor para pruebas unitarias
