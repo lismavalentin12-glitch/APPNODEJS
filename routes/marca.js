@@ -8,6 +8,7 @@ router.get("/:id", async (req, res) => {
     const [rows] = await db.query(
       "SELECT * FROM marcas ORDER BY nombremarca ASC",
     );
+    
     res.json({ success: true, data: rows });
   } catch (err) {
     res.status(500).json({
@@ -146,10 +147,10 @@ router.delete("/:id", async (req, res) => {
     if (result.affectedRows === 0) {
       return res
         .status(404)
-        .json({ success: false, message: "Marca no encontrada" });
+        .json({ success: false, message: "No existe la marca" });
     }
     //Status = 200 default
-    res.json({ success: true, message: "Marca eliminada exitosamente" });
+    res.json({ success: true, message: "Marca eliminada Correctamente" });
   } catch (err) {
     res.status(500).json({
       success: false,
