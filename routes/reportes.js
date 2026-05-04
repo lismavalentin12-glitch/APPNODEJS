@@ -36,16 +36,16 @@ router.get('/productos' , async (req, res) =>{
     doc.moveDown()
 
     //Recorrer cada elemento encontrado y enviarlo al PDF
-    productos.forEach(producto =>{
+    productos.forEach(productos =>{
       //doc.fontSize(12).text(producto.descripcion)
       doc.table({
-        data: [[producto.nombre, producto.precio, producto.garantia]]
+        data: [[productos.nombre, productos.precio, productos.garantia]]
       })
     })
 
 
 
-    
+
     const lorem = 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, voluptate.'
 
     doc.text(`Total de productos: ${productos.length}`)
