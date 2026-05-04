@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "appnodejs",
+=======
+  "name": "basic-app-new",
+>>>>>>> 882a7ad (Avance)
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,7 +18,12 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+<<<<<<< HEAD
     "mysql2": "^3.22.1"
+=======
+    "mysql2": "^3.22.2",
+    "pdfkit": "^0.18.0"
+>>>>>>> 882a7ad (Avance)
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
