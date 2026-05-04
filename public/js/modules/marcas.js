@@ -13,19 +13,8 @@ const MarcasModule = {
   },
 
   async load() {
-    document.getElementById('bodyMarcas').innerHTML =
-      `<tr><td colspan="4" class="text-center py-5"><div class="spinner-custom"></div></td></tr>`;
-
-    try {
-      const { data } = await http('/api/marcas');
-      AppState.marcas = data;
-      this._render(data);
-      updateBadges();
-    } catch (e) {
-      showToast('Error al cargar marcas: ' + e.message, 'error');
-    }
+    console.log('Enviado desde JS clientes')
   },
-
   _render(lista) {
     setText('totalMarcasLabel', `${lista.length} marca(s) registrada(s)`);
     const tbody = document.getElementById('bodyMarcas');
